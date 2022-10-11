@@ -108,3 +108,12 @@ http {
 }
 ```
 
+## Read access log
+```
+cat /var/log/nginx/access.log
+```
+
+## Read error log
+```
+cat /var/log/nginx/error.log
+```
