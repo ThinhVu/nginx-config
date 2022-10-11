@@ -1,9 +1,9 @@
 # nginx-config
-Nginx configuration
+Nginx is very easy to work with. There are a few configurations you may need to know.
 
 
 ## Simple proxy server
-Suppose you running the app and listen on port 6000.
+Suppose you're running the app and listening on port 6000.
 
 Create a config file, using domain name for naming is recommended
 `sudo vi /etc/nginx/sites-enabled/tvux.me`
@@ -20,9 +20,11 @@ server {
 ```
 
 ## Https server
-To enabled https for nginx, install certbot & certbot nginx plugin (tutorial in ...)
-`sudo certbot --nginx`
-then select config file you want to make a https -> select 2 to redirect all http request to https
+To enable HTTPS for Nginx, install certbot & certbot Nginx plugin tutorial [Web-server-for-dummies](https://github.com/ThinhVu/web-server-guide-for-dummies)
+```
+sudo certbot --nginx
+```
+then select config file you want to make a HTTPS, then select option 2 to redirect all HTTP request to HTTPS
 
 ## IPv6 support
 **/etc/nginx/sites-enabled/tvux.me**
@@ -70,7 +72,7 @@ server {
    }
 }
 ```
-Now you can get request IP address from `request.headers['X-Real-IP']`
+Now you can get the request IP address from `request.headers['X-Real-IP']`
 
 ## CORS
 **/etc/nginx/sites-enabled/tvux.me**
@@ -88,7 +90,7 @@ server {
 ```
 
 ## Worker connections
-By default, Nginx use 768 worker_connections. It'll fail to serve your app if there is a massive amount of requests at the same time. A simple solution is increase worker_connections to a larger number.
+By default, Nginx uses 768 worker_connections. It'll fail to serve your app if there is a massive amount of requests at the same time. A simple solution is increase worker_connections to a larger number.
 
 **/etc/nginx/nginx.conf**
 ```
@@ -98,6 +100,7 @@ events {
 ```
 
 ## Increase maximum request body size
+By default, Nginx uses 10M for maximum body size (request's body).
 **/etc/nginx/nginx.conf**
 ```
 http {
