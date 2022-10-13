@@ -3,9 +3,13 @@ Nginx is very easy to work with. There are a few configurations you may need to 
 
 
 ## Simple proxy server
-Suppose you're running the app and listening on port 6000.
+Suppose you're running the app in your VPS and listening on port 6000. ATM, you can access to the app at http://{vps-ip-address}:6000
 
-Create a config file, using domain name for naming is recommended
+But everyone love visit the web via domain name rather than IP address & port. So we need to add a Nginx config to resolve domain name & forward the request to your app.
+
+For example: I created a domain name "tvux.me" and pointing it to my VPS server (A record).
+
+In VPS, create a Nginx configuration file, using domain name for naming is recommended
 `sudo vi /etc/nginx/sites-enabled/tvux.me`
 
 **/etc/nginx/sites-enabled/tvux.me**
@@ -18,15 +22,22 @@ server {
    }
 }
 ```
+Now I can access my web app at http://tvux.me
 
 ## Https server
-To enable HTTPS for Nginx, install certbot & certbot Nginx plugin tutorial [Web-server-for-dummies](https://github.com/ThinhVu/web-server-guide-for-dummies)
+To enable HTTPS for Nginx, install certbot & certbot Nginx plugin (tutorial [Web-server-for-dummies](https://github.com/ThinhVu/web-server-guide-for-dummies))
 ```
 sudo certbot --nginx
 ```
-then select config file you want to make a HTTPS, then select option 2 to redirect all HTTP request to HTTPS
+then select config file you want to make a HTTPS. In this example it's **tvux.me**, then select option 2 to redirect all HTTP request to HTTPS.
+
+Now I can access my web app at https://tvux.me
 
 ## IPv6 support
+
+To support IPv6, the first thing is config the domain name to poiting to my server with AAAA record
+
+Then in my server, modify the config file a little bit.
 **/etc/nginx/sites-enabled/tvux.me**
 ```
 server {
@@ -40,6 +51,8 @@ server {
 ```
 
 ## Load balancer
+Your app might need to update sometimes in the future so to ensure the app uptime 100%, you may need to run at least 1 backup instance. For example, I run the same app in port 6001 for backup purpose.
+
 **/etc/nginx/sites-enabled/tvux.me**
 ```
 upstream backend {
